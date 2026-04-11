@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>VOID - 虚拟音源</title>
+    <title>Shamu Batteri</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
@@ -130,9 +130,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            justify-content: center;
+            justify-content: flex-start; /* 改为靠左对齐，更适合文字下方 */
             flex-wrap: wrap;
+            margin-top: 20px; /* 👈 就是这行！增加上边距 */
         }
+    
 
         .listen-text {
             font-size: 0.95rem;
@@ -267,64 +269,83 @@
             box-shadow: 0 0 25px var(--neon-yellow), 5px 5px 0px var(--neon-purple);
         }
 
-        /* === 设定集画廊（全新布局）=== */
+              /* --- 设定集主容器 --- */
         .gallery-section {
-            margin: 50px 0;
-            padding: 30px;
-            background: rgba(20, 20, 30, 0.6);
+            background: rgba(20, 20, 30, 0.7);
+            border: 1px solid var(--neon-yellow);
             border-radius: 15px;
-            border: 1px solid rgba(204, 255, 0, 0.3);
+            padding: 25px;
+            margin: 40px auto;
+            max-width: 900px; /* 控制整体最大宽度 */
         }
 
-        .gallery-main {
-            width: 100%;
-            height: 400px;
-            object-fit: contain;
-            background: #1a1a25;
-            border: 2px solid rgba(204, 255, 0, 0.2);
-            border-radius: 8px;
+        /* --- 设定集内容：Flex 布局，主图在左，缩略图在右 --- */
+        .gallery-content {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
+            gap: 20px; /* 主图和缩略图之间的间距 */
+            align-items: flex-start; /* 顶部对齐 */
         }
 
+        /* --- 左侧：主图 --- */
         .gallery-main img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 500px; /* 主图宽度，可按需调整 */
+            height: auto;
+            border: 2px solid var(--neon-yellow);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
             display: block;
         }
 
-        .gallery-thumbs {
+        /* --- 右侧：垂直排列的缩略图 --- */
+        .gallery-thumbs-vertical {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
+            flex-direction: column; /* 垂直排列 */
+            gap: 12px; /* 缩略图之间的间距 */
+            align-self: flex-start; /* 让缩略图列表从顶部开始，不拉伸 */
         }
 
-        .thumb {
-            width: 80px;
-            height: 80px;
-            border: 2px solid rgba(185, 103, 255, 0.3);
-            border-radius: 6px;
-            overflow: hidden;
+        .gallery-thumbs-vertical .thumb {
+            width: 100px; /* 缩略图宽度 */
+            height: 100px; /* 缩略图高度 */
             cursor: pointer;
-            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .thumb:hover,
-        .thumb.active {
+        .gallery-thumbs-vertical .thumb:hover,
+        .gallery-thumbs-vertical .thumb.active {
             border-color: var(--neon-yellow);
-            box-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
             transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.5);
         }
 
-        .thumb img {
+        .gallery-thumbs-vertical .thumb img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* 保证图片填充整个缩略图区域 */
         }
 
+        /* --- 小屏幕适配：在手机上恢复为上下布局 --- */
+        @media (max-width: 768px) {
+            .gallery-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            .gallery-main img {
+                width: 90%; /* 手机上主图占90%宽度 */
+            }
+            .gallery-thumbs-vertical {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .gallery-thumbs-vertical .thumb {
+                width: 80px;
+                height: 80px;
+            }
+        }
         /* === 联系方式（移到最下）=== */
         .contact-section {
             margin-top: 60px;
@@ -385,13 +406,12 @@
                 <!-- 左侧：立绘和播放器 -->
                 <div class="standing-container">
                     <img src="standing.png" alt="瑕目·巴特理 立绘" class="standing-clean" id="standingImg">
-                    <!-- 微型音频播放器 -->
-                    <div class="mini-player">
-                        <span class="listen-text">试听</span>
-                        <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
-                        <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
-                    </div>
-                </div>
+                   <!-- 微型音频播放器 -->
+<div class="mini-player">
+    <span class="listen-text">试听</span>
+    <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
+    <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
+</div>
                 
                 <!-- 右侧：角色信息卡片 -->
                 <div class="character-details">
@@ -439,33 +459,30 @@
             </div>
         </div>
 
-        <!-- === 全新设定集板块 === -->
+        <!-- === 全新设定集板块 (缩略图在右侧) === -->
         <div class="gallery-section">
             <h2>▍设定集</h2>
-            <!-- 主图区域 -->
-            <div class="gallery-main">
-                <img id="mainImage" src="concept1.png" alt="主设定图">
-            </div>
-            <!-- 缩略图 -->
-            <div class="gallery-thumbs">
-                <div class="thumb active" data-src="concept1.png">
-                    <img src="concept1.png" alt="设定1">
+            
+            <!-- 主容器：Flex 布局，左右排列 -->
+            <div class="gallery-content">
+                <!-- 左侧：主图区域 -->
+                <div class="gallery-main">
+                    <img id="mainImage" src="concept1.png" alt="主设定图">
                 </div>
-                <div class="thumb" data-src="concept2.png">
-                    <img src="concept2.png" alt="设定2">
+                
+                <!-- 右侧：缩略图列表 -->
+                <div class="gallery-thumbs-vertical">
+                    <div class="thumb active" data-src="concept1.png">
+                        <img src="concept1.png" alt="设定1">
+                    </div>
+                    <div class="thumb" data-src="concept2.png">
+                        <img src="concept2.png" alt="设定2">
+                    </div>
+                    <div class="thumb" data-src="concept3.png">
+                        <img src="concept3.png" alt="设定3">
+                    </div>
+                    <!-- 可继续添加更多缩略图 -->
                 </div>
-                <div class="thumb" data-src="concept3.png">
-                    <img src="concept3.png" alt="设定3">
-                </div>
-                 <div class="thumb" data-src="concept4.png">
-                    <img src="concept3.png" alt="设定4">
-                </div>
-                <!-- 可继续添加更多缩略图 -->
-                <!--
-                <div class="thumb" data-src="concept4.jpg">
-                    <img src="concept4.jpg" alt="设定4">
-                </div>
-                -->
             </div>
         </div>
 
