@@ -408,11 +408,12 @@
                 <div class="standing-container">
                     <img src="standing.png" alt="瑕目·巴特理 立绘" class="standing-clean" id="standingImg">
                    <!-- 微型音频播放器 -->
-<div class="mini-player">
-    <span class="listen-text">试听</span>
-    <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
-    <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
-</div>
+                    <div class="mini-player">
+                        <span class="listen-text">试听</span>
+                        <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
+                        <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
+                    </div>
+                </div> <!-- 👈 闭合 standing-container -->
                 
                 <!-- 右侧：角色信息卡片 -->
                 <div class="character-details">
@@ -429,8 +430,9 @@
                         头上的拓麻歌子是表现情绪的地方
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> <!-- 👈 闭合 character-content -->
+        </div> <!-- 👈 👏 关键！闭合 character-section -->
+        
         <!-- 使用合规说明 -->
         <div class="section">
             <h2>▍使用条款</h2>
