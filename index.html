@@ -38,12 +38,13 @@
 
         /* === 顶部：头像 + 名称 === */
         .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 40px;
-            text-align: center;
-        }
+    display: flex;
+    flex-direction: row; /* 改为水平排列 */
+    align-items: center; /* 垂直居中对齐 */
+    gap: 20px; /* 头像和文字之间的间距 */
+    margin-bottom: 40px;
+    text-align: left; /* 文字左对齐 */
+}
 
         .main-avatar {
             width: 120px;
