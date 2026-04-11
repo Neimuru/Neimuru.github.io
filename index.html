@@ -108,6 +108,29 @@
                 text-align: center; /* 确保简介也居中 */
             }
         }
+                /* === 角色信息卡片 === */
+        .character-info {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .character-info div {
+            font-size: 1.1rem;
+        }
+
+        .character-info strong {
+            color: var(--neon-yellow);
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        /* --- 补充说明小字 --- */
+        .character-note {
+            font-size: 0.9rem;
+            color: #bbb;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
                 /* === 微型音频播放器 === */
         .mini-player {
             display: flex;
@@ -355,11 +378,18 @@
             <div class="character-content">
                 <!-- 干净的立绘，无边框无阴影 -->
                 <img src="standing.png" alt="VOID 立绘" class="standing-clean" id="standingImg">
-                <div class="bio">
-                    VOID 是一位来自数据深渊的虚拟歌姬，她的声音融合了电子脉冲与人类情感的残响。
-                    在现实与虚拟的边界游走，用歌声唤醒沉睡的记忆碎片。
-                    她没有固定的形态，却能在每个聆听者心中投射出不同的模样。
-                </div>
+                                   <div class="character-info">
+                        <div><strong>姓名：</strong>瑕目·巴特理</div>
+                        <div><strong>简称：</strong>瑕目</div>
+                        <div><strong>身高：</strong>？？</div>
+                        <div><strong>性别：</strong>？？</div>
+                    </div>
+                    <div class="character-note">
+                        面瘫，没办法做出表情(但是嘴巴可以勉强变换)<br>
+                        可以用手摆弄嘴巴脸颊做表情<br>
+                        右侧眼睛因为开洞的关系没办法开闭，保持半开<br>
+                        头上的拓麻歌子是表现情绪的地方
+                    </div>
             </div>
                     <!-- 微型音频播放器 -->
             <div class="mini-player">
