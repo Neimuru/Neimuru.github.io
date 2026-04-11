@@ -404,18 +404,12 @@
         <div class="character-section">
             <!-- 角色内容区域 (Flex 容器) -->
             <div class="character-content">
-                <!-- 左侧：立绘和播放器 -->
+                <!-- 左侧：只有立绘 -->
                 <div class="standing-container">
                     <img src="standing.png" alt="瑕目·巴特理 立绘" class="standing-clean" id="standingImg">
-                    <!-- ✨ 关键修改：把播放器放在这里面！ -->
-                    <div class="mini-player">
-                        <span class="listen-text">试听</span>
-                        <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
-                        <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
-                    </div>
-                </div> <!-- 👈 闭合 standing-container -->
+                </div> <!-- 👈 关键！在这里立刻闭合 .standing-container -->
                 
-                <!-- 右侧：角色信息卡片 -->
+                <!-- 右侧：角色信息卡片 + 播放器 -->
                 <div class="character-details">
                     <div class="character-info">
                         <div><strong>姓名：</strong>瑕目·巴特理</div>
@@ -429,9 +423,15 @@
                         右侧眼睛因为开洞的关系没办法开闭，保持半开<br>
                         头上的拓麻歌子是表现情绪的地方
                     </div>
-                </div>
-            </div> <!-- 👈 闭合 character-content -->
-        </div> <!-- 👈 闭合 character-section -->
+                    <!-- ✨ 关键！把播放器放在这里，作为 .character-details 的最后一个子元素 -->
+                    <div class="mini-player">
+                        <span class="listen-text">试听</span>
+                        <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
+                        <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
+                    </div>
+                </div> <!-- 👈 闭合 .character-details -->
+            </div> <!-- 👈 闭合 .character-content -->
+        </div> <!-- 👈 闭合 .character-section -->
         
         <!-- 使用合规说明 -->
         <div class="section">
