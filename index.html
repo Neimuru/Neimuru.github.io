@@ -108,7 +108,41 @@
                 text-align: center; /* 确保简介也居中 */
             }
         }
-                /* === 角色信息卡片 === */
+        /* === 角色展示区（含立绘+简介）=== */
+        .character-section {
+            background: rgba(20, 20, 30, 0.6);
+            border-radius: 15px;
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        /* --- 使用 Flexbox 并严格限制子元素宽度 --- */
+        .character-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* --- 关键：为立绘创建一个固定宽度的容器 --- */
+        .standing-clean {
+            width: 300px; /* 固定宽度 */
+            max-width: 100%; /* 在小屏幕上可以缩小 */
+            height: auto; /* 保持宽高比 */
+            flex-shrink: 0; /* 防止被挤压 */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* --- 信息区域占据剩余空间 --- */
+        .character-info,
+        .character-note {
+            flex: 1; /* 占据所有可用空间 */
+            min-width: 280px; /* 防止在窄屏上过窄 */
+        }
+
         .character-info {
             margin-bottom: 15px;
             line-height: 1.8;
@@ -124,12 +158,28 @@
             font-weight: bold;
         }
 
-        /* --- 补充说明小字 --- */
         .character-note {
             font-size: 0.9rem;
             color: #bbb;
             line-height: 1.6;
             opacity: 0.9;
+        }
+
+        /* --- 小屏幕适配 --- */
+        @media (max-width: 768px) {
+            .character-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .standing-clean {
+                width: 80%; /* 在手机上占80%宽度 */
+            }
+            .character-info,
+            .character-note {
+                min-width: auto;
+                text-align: center;
+            }
         }
                 /* === 微型音频播放器 === */
         .mini-player {
@@ -374,8 +424,11 @@
         </div>
 
              <!-- 角色展示区（立绘 + 简介 + 微型播放器） -->
-        <div class="character-section">
-            <div class="character-content">
+      <div class="character-content">
+    <img src="standing.png" alt="VOID 立绘" class="standing-clean" id="standingImg">
+    <div class="character-info">...</div>
+    <div class="character-note">...</div>
+</div>
                 <!-- 干净的立绘，无边框无阴影 -->
                 <img src="standing.png" alt="VOID 立绘" class="standing-clean" id="standingImg">
                                    <div class="character-info">
