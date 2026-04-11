@@ -99,8 +99,9 @@
             min-width: 280px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* 从顶部开始 */
-            margin-top: 40px; /* 👈 就是这行！让整个文字块向下移动20像素 */
+            justify-content: flex-start; /* 从顶部开始排列 */
+            margin-top: 40px;
+            align-self: flex-start; /* 👈 关键！让这个区域的高度由内容决定，而不是被拉伸 */
         }
 
         .character-info {
