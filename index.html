@@ -63,7 +63,7 @@
             margin: 0;
         }
 
-              /* === 角色展示区（含立绘+简介）=== */
+                     /* === 角色展示区（含立绘+简介）=== */
         .character-section {
             background: rgba(20, 20, 30, 0.6);
             border-radius: 15px;
@@ -72,21 +72,18 @@
             margin-bottom: 50px;
         }
 
+        /* --- 关键：使用 Grid 布局，完美控制比例 --- */
         .character-content {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: minmax(250px, 350px) 1fr; /* 左侧图片区域最小250px，最大350px；右侧文字占剩余所有空间 */
             gap: 30px;
-            justify-content: center;
-            align-items: flex-start;
+            align-items: start; /* 让内容从顶部对齐 */
         }
 
-        /* --- 关键修改：干净的立绘 --- */
+        /* --- 干净的立绘 --- */
         .standing-clean {
-            max-width: 300px;
-            /* 移除了所有边框、阴影和圆角 */
-            /* border: none; */
-            /* box-shadow: none; */
-            /* border-radius: 0; */
+            width: 100%; /* 图片宽度填满其所在的网格区域 */
+            height: auto; /* 保持原始宽高比 */
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -96,12 +93,20 @@
         }
 
         .bio {
-            max-width: 500px;
             font-size: 1.1rem;
             line-height: 1.7;
             text-align: justify;
-            /* 确保文字在图片右侧对齐 */
-            align-self: center;
+        }
+
+        /* --- 在小屏幕上（如手机）堆叠显示 --- */
+        @media (max-width: 768px) {
+            .character-content {
+                grid-template-columns: 1fr; /* 变成一列 */
+                text-align: center; /* 文字居中 */
+            }
+            .bio {
+                text-align: center; /* 确保简介也居中 */
+            }
         }
         /* === 合规 + 下载 === */
         .section {
