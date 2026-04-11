@@ -63,51 +63,6 @@
             margin: 0;
         }
 
-                     /* === 角色展示区（含立绘+简介）=== */
-        .character-section {
-            background: rgba(20, 20, 30, 0.6);
-            border-radius: 15px;
-            border: 1px solid rgba(204, 255, 0, 0.3);
-            padding: 30px;
-            margin-bottom: 50px;
-        }
-
-        /* --- 关键：使用 Grid 布局，完美控制比例 --- */
-        .character-content {
-            display: grid;
-            grid-template-columns: minmax(250px, 350px) 1fr; /* 左侧图片区域最小250px，最大350px；右侧文字占剩余所有空间 */
-            gap: 30px;
-            align-items: start; /* 让内容从顶部对齐 */
-        }
-
-        /* --- 干净的立绘 --- */
-        .standing-clean {
-            width: 100%; /* 图片宽度填满其所在的网格区域 */
-            height: auto; /* 保持原始宽高比 */
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .standing-clean:hover {
-            transform: scale(1.02);
-        }
-
-        .bio {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            text-align: justify;
-        }
-
-        /* --- 在小屏幕上（如手机）堆叠显示 --- */
-        @media (max-width: 768px) {
-            .character-content {
-                grid-template-columns: 1fr; /* 变成一列 */
-                text-align: center; /* 文字居中 */
-            }
-            .bio {
-                text-align: center; /* 确保简介也居中 */
-            }
-        }
         /* === 角色展示区（含立绘+简介）=== */
         .character-section {
             background: rgba(20, 20, 30, 0.6);
@@ -136,9 +91,12 @@
             transition: transform 0.3s ease;
         }
 
+        .standing-clean:hover {
+            transform: scale(1.02);
+        }
+
         /* --- 信息区域占据剩余空间 --- */
-        .character-info,
-        .character-note {
+        .character-details {
             flex: 1; /* 占据所有可用空间 */
             min-width: 280px; /* 防止在窄屏上过窄 */
         }
@@ -175,13 +133,13 @@
             .standing-clean {
                 width: 80%; /* 在手机上占80%宽度 */
             }
-            .character-info,
-            .character-note {
+            .character-details {
                 min-width: auto;
                 text-align: center;
             }
         }
-                /* === 微型音频播放器 === */
+
+        /* === 微型音频播放器 === */
         .mini-player {
             display: flex;
             align-items: center;
@@ -239,6 +197,7 @@
             cursor: pointer;
             box-shadow: 0 0 8px var(--neon-yellow);
         }
+
         /* === 合规 + 下载 === */
         .section {
             margin: 50px 0;
@@ -423,15 +382,15 @@
             <h1>VOID</h1>
         </div>
 
-             <!-- 角色展示区（立绘 + 简介 + 微型播放器） -->
-      <div class="character-content">
-    <img src="standing.png" alt="VOID 立绘" class="standing-clean" id="standingImg">
-    <div class="character-info">...</div>
-    <div class="character-note">...</div>
-</div>
-                <!-- 干净的立绘，无边框无阴影 -->
-                <img src="standing.png" alt="VOID 立绘" class="standing-clean" id="standingImg">
-                                   <div class="character-info">
+        <!-- 角色展示区（立绘 + 简介 + 微型播放器） -->
+        <div class="character-section">
+            <div class="character-content">
+                <!-- 立绘图片（只保留一个！） -->
+                <img src="standing.png" alt="瑕目·巴特理 立绘" class="standing-clean" id="standingImg">
+                
+                <!-- 角色信息卡片（包裹在一个容器里） -->
+                <div class="character-details">
+                    <div class="character-info">
                         <div><strong>姓名：</strong>瑕目·巴特理</div>
                         <div><strong>简称：</strong>瑕目</div>
                         <div><strong>身高：</strong>？？</div>
@@ -443,29 +402,32 @@
                         右侧眼睛因为开洞的关系没办法开闭，保持半开<br>
                         头上的拓麻歌子是表现情绪的地方
                     </div>
+                </div>
             </div>
-                    <!-- 微型音频播放器 -->
+
+            <!-- 微型音频播放器 -->
             <div class="mini-player">
                 <span class="listen-text">试听</span>
                 <button class="play-btn-mini neon-glow" id="playBtnMini">▶</button>
                 <input type="range" id="volumeMini" class="volume-slider-mini" min="0" max="1" step="0.01" value="1">
             </div>
+        </div>
 
-       <!-- 使用合规说明 -->
-<div class="section">
-    <h2>▍使用条款</h2>
-    <p style="text-align: center; margin-bottom: 20px; font-weight: bold;">
-        本音源及相关素材的一切权利归 <span style="color: var(--neon-yellow);">NEIMURU</span> 所有。
-    </p>
-    <ul class="compliance-list">
-        <li class="forbid">角色形象与声音：禁止用于其他角色，或声称自己为创作者。</li>
-        <li class="allow">内容创作：允许非商业及小型商业用途（如翻唱、同人志、独立游戏）。大型商业合作请事先咨询。</li>
-        <li class="forbid">表达限制：严禁用于违法、仇恨、歧视、政治/宗教募捐及人身攻击。禁止任何可能严重损害角色形象的行为。</li>
-        <li class="forbid">AI 相关：<strong>严格禁止</strong>将官方音源、立绘、同人等素材用于任何形式的人工智能训练、生成或数据集创建。</li>
-        <li class="forbid">素材分发：可自由使用官方素材进行二次创作，但<strong>禁止直接转售或打包出售</strong>音源文件本身。</li>
-        <li class="suggest">免责声明：创作者不对因使用本音源而产生的任何后果负责。</li>
-    </ul>
-</div>
+        <!-- 使用合规说明 -->
+        <div class="section">
+            <h2>▍使用条款</h2>
+            <p style="text-align: center; margin-bottom: 20px; font-weight: bold;">
+                本音源及相关素材的一切权利归 <span style="color: var(--neon-yellow);">NEIMURU</span> 所有。
+            </p>
+            <ul class="compliance-list">
+                <li class="forbid">角色形象与声音：禁止用于其他角色，或声称自己为创作者。</li>
+                <li class="allow">内容创作：允许非商业及小型商业用途（如翻唱、同人志、独立游戏）。大型商业合作请事先咨询。</li>
+                <li class="forbid">表达限制：严禁用于违法、仇恨、歧视、政治/宗教募捐及人身攻击。禁止任何可能严重损害角色形象的行为。</li>
+                <li class="forbid">AI 相关：<strong>严格禁止</strong>将官方音源、立绘、同人等素材用于任何形式的人工智能训练、生成或数据集创建。</li>
+                <li class="forbid">素材分发：可自由使用官方素材进行二次创作，但<strong>禁止直接转售或打包出售</strong>音源文件本身。</li>
+                <li class="suggest">免责声明：创作者不对因使用本音源而产生的任何后果负责。</li>
+            </ul>
+        </div>
 
         <!-- 资源下载 -->
         <div class="section">
