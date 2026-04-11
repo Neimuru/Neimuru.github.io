@@ -63,7 +63,7 @@
             margin: 0;
         }
 
-        /* === 角色展示区（含立绘+简介）=== */
+              /* === 角色展示区（含立绘+简介）=== */
         .character-section {
             background: rgba(20, 20, 30, 0.6);
             border-radius: 15px;
@@ -80,16 +80,18 @@
             align-items: flex-start;
         }
 
-        .standing-large {
+        /* --- 关键修改：干净的立绘 --- */
+        .standing-clean {
             max-width: 300px;
-            border: 2px solid rgba(204, 255, 0, 0.3);
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            /* 移除了所有边框、阴影和圆角 */
+            /* border: none; */
+            /* box-shadow: none; */
+            /* border-radius: 0; */
             cursor: pointer;
             transition: transform 0.3s ease;
         }
 
-        .standing-large:hover {
+        .standing-clean:hover {
             transform: scale(1.02);
         }
 
@@ -98,49 +100,9 @@
             font-size: 1.1rem;
             line-height: 1.7;
             text-align: justify;
+            /* 确保文字在图片右侧对齐 */
+            align-self: center;
         }
-
-        /* === 微型音频播放器 === */
-        .mini-player {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 25px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .play-btn-mini {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--neon-yellow);
-            color: black;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 10px rgba(204, 255, 0, 0.7);
-            transition: all 0.2s ease;
-        }
-
-        .play-btn-mini:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--neon-yellow);
-        }
-
-        .volume-slider-mini {
-            width: 120px;
-            accent-color: var(--neon-yellow);
-        }
-
         /* === 合规 + 下载 === */
         .section {
             margin: 50px 0;
@@ -325,10 +287,11 @@
             <h1>VOID</h1>
         </div>
 
-        <!-- 角色展示区（立绘 + 简介 + 微型播放器） -->
+             <!-- 角色展示区（立绘 + 简介 + 微型播放器） -->
         <div class="character-section">
             <div class="character-content">
-                <img src="standing.png" alt="VOID 立绘" class="standing-large" id="standingImg">
+                <!-- 干净的立绘，无边框无阴影 -->
+                <img src="standing.png" alt="VOID 立绘" class="standing-clean" id="standingImg">
                 <div class="bio">
                     VOID 是一位来自数据深渊的虚拟歌姬，她的声音融合了电子脉冲与人类情感的残响。
                     在现实与虚拟的边界游走，用歌声唤醒沉睡的记忆碎片。
