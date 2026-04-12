@@ -19,22 +19,160 @@
             box-sizing: border-box;
         }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(185, 103, 255, 0.08) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(204, 255, 0, 0.08) 0%, transparent 20%);
-            padding: 20px;
-        }
+<script>
+// 二进制雨效果（仅背景，不影响性能）
+const canvas = document.createElement('canvas');
+canvas.style.position = 'fixed';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.zIndex = '-1';
+document.body.appendChild(canvas);
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const fontSize = 14;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = [];
+for (let i = 0; i < columns; i++) drops[i] = Math.random() * canvas.height;
+
+function draw() {
+  ctx.fillStyle = 'rgba(15, 15, 21, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#ccff00';
+  ctx.font = `${fontSize}px monospace`;
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96)); // 日文片假名 + 符号
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+      drops[i] = 0;
+    drops[i]++;
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+draw();
+</script>
+        /* ===== 赛博增强背景（覆盖原 body 样式）===== */
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* === 1. 动态网格背景（青色细线）=== */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image:
+    linear-gradient(rgba(185, 103, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(204, 255, 0, 0.06) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: -2;
+}
+
+/* === 2. 扫描线动画（模拟 CRT 显示器）=== */
+body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 49px,
+    rgba(204, 255, 0, 0.04) 50px
+  );
+  animation: scanline 6s linear infinite;
+  z-index: -2;
+}
+
+@keyframes scanline {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100vh; }
+}
+
+/* === 3. 霓虹光晕层（带轻微噪点）=== */
+body::nth-child(1)::after {
+  /* 用一个额外伪元素做光晕层（避免干扰其他） */
+}
+body:not(:root)::before {
+  /* 实际不用这个，下面用 JS 或单独 div 更好 —— 但为轻量，我们改用以下方式 */
+}
+
+/* === 4. 添加「数字雨」粒子（可选，轻量版）=== */
+/* 如果你想要极简版，可跳过；若要炫酷，推荐加下方 JS 版本（见后文） */
+
+/* === 5. 边缘霓虹发光（强化容器）=== */
+.container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  /* 新增：更强烈的霓虹外光晕 */
+  box-shadow: 
+    0 0 20px rgba(204, 255, 0, 0.3),
+    0 0 40px rgba(185, 103, 255, 0.2);
+  border-radius: 15px;
+  background: rgba(15, 15, 21, 0.85); /* 更深一点的暗色 */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(204, 255, 0, 0.4);
+}
+
+/* === 6. 关键：让头像/按钮等元素也带霓虹边框 === */
+.main-avatar,
+.download-btn,
+.contact-link,
+.gallery-main img,
+.thumb {
+  filter: drop-shadow(0 0 8px rgba(204, 255, 0, 0.7));
+}
+
+/* === 7. 故障文字效果（用于标题）=== */
+.hero h1 {
+  position: relative;
+}
+.hero h1::before,
+.hero h1::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.hero h1::before {
+  clip-path: inset(0 100% 0 0);
+  color: var(--neon-purple);
+  animation: glitch-anim 0.4s infinite alternate-reverse;
+}
+.hero h1::after {
+  clip-path: inset(0 0 0 100%);
+  color: var(--neon-yellow);
+  animation: glitch-anim 0.4s infinite alternate-reverse;
+  animation-delay: 0.03s;
+}
+@keyframes glitch-anim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
 
         /* === 顶部：头像 + 名称 === */
 .hero {
@@ -409,7 +547,7 @@
         <!-- 顶部：头像 + 名称 -->
         <div class="hero">
             <div class="main-avatar"></div>
-            <h1>シャム・バッテリー</h1>
+<h1 data-text="シャム・バッテリー">シャム・バッテリー</h1>
         </div>
 
         <!-- 角色展示区（立绘 + 简介 + 微型播放器） -->
