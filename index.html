@@ -691,17 +691,34 @@ body:not(:root)::before {
   <meta charset="UTF-8">
   <title>带尾巴的漫画气泡</title>
   <style>
-    /* === 保留你原有的动图样式 === */
-    #corner-gif {
+    /* === 角色容器：固定在右下角 === */
+    #gif-container {
       position: fixed;
       bottom: 20px;
       right: 250px;
       z-index: 9998;
-      width:200px;
+      width: 200px;
+    }
+
+    /* === 动图样式 === */
+    #corner-gif {
+      width: 100%;
+      display: block;
       cursor: pointer;
     }
 
-    /* === 新增：带尾巴的漫画气泡 === */
+    /* === 隐藏的头顶锚点（关键！）=== */
+    #head-anchor {
+      position: absolute;
+      top: 15px; /* 👈 根据你的图调整此值：角色头顶在动图顶部往下15px处 */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 1px;
+      z-index: -1; /* 确保不可见 */
+    }
+
+    /* === 带尾巴的漫画气泡 === */
     .speech-bubble {
       position: fixed;
       background: white;
@@ -736,7 +753,7 @@ body:not(:root)::before {
       border-top: 12px solid white; /* 与气泡背景色一致 */
     }
 
-    /* 淡入淡出动画（保持不变） */
+    /* 淡入淡出动画 */
     @keyframes fadeInOut {
       0%   { opacity: 0; transform: translateY(10px); }
       10%  { opacity: 1; transform: translateY(0); }
@@ -747,40 +764,47 @@ body:not(:root)::before {
 </head>
 <body>
 
-  <!-- 动图（请替换 src） -->
-  <img id="corner-gif" src="gif.gif" alt="动图">
+  <!-- 角色容器（包含动图 + 头顶锚点） -->
+  <div id="gif-container">
+    <img id="corner-gif" src="gif.gif" alt="动图">
+    <!-- 虚拟锚点：精确定位角色头顶 -->
+    <span id="head-anchor"></span>
+  </div>
 
   <script>
-  const messages = [
-    "你好呀！",
-    "今天过得怎么样？",
-    "点击我有惊喜~",
-    "枫叶真美！",
-    "记得多喝水哦",
-    "加油！你可以的！"
-  ];
+    const messages = [
+      "你好呀！",
+      "今天过得怎么样？",
+      "点击我有惊喜~",
+      "枫叶真美！",
+      "记得多喝水哦",
+      "加油！你可以的！"
+    ];
 
-  const gif = document.getElementById('corner-gif');
-  gif.addEventListener('click', function(e) {
-    const bubble = document.createElement('div');
-    bubble.className = 'speech-bubble';
-    bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+    const gif = document.getElementById('corner-gif');
+    gif.addEventListener('click', function(e) {
+      // 创建气泡
+      const bubble = document.createElement('div');
+      bubble.className = 'speech-bubble';
+      bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-    // === 关键修复：定义偏移量 ===
-    const offsetX = 15;   // 水平向右偏移（适配角色头位置）
-    const offsetY = -35;  // 垂直向上偏移（让气泡靠近头顶）
+      // ✅ 关键：读取头顶锚点位置（不是动图本身！）
+      const anchor = document.getElementById('head-anchor');
+      const anchorRect = anchor.getBoundingClientRect();
 
-    const rect = gif.getBoundingClientRect();
-    bubble.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
-    bubble.style.bottom = (window.innerHeight - rect.top + 20 + offsetY) + 'px';
-    bubble.style.transform = 'translateX(-50%)';
+      // 设置气泡位置：底部紧贴头顶，水平居中
+      bubble.style.bottom = (window.innerHeight - anchorRect.top + 5) + 'px'; // +5px 留空隙
+      bubble.style.left = anchorRect.left + 'px';
+      bubble.style.transform = 'translateX(-50%)';
 
-    document.body.appendChild(bubble);
+      document.body.appendChild(bubble);
 
-    setTimeout(() => {
-      bubble.remove();
-    }, 3000);
-  });
-</script>
+      // 3秒后移除
+      setTimeout(() => {
+        bubble.remove();
+      }, 3000);
+    });
+  </script>
+
 </body>
 </html>
