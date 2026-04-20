@@ -684,3 +684,25 @@ body:not(:root)::before {
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #corner-gif {
+      position: fixed;
+      bottom: 20px;    /* 距离底部 20px */
+      right: 20px;     /* 距离右侧 20px */
+      z-index: 9999;   /* 确保在最上层，不被其他内容遮挡 */
+      width: 100px;    /* 可按需调整大小 */
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 其他网页内容 -->
+
+  <img id="corner-gif" src="gif.gif" alt="动图">
+
+</body>
+</html>
