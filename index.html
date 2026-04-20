@@ -684,25 +684,104 @@ body:not(:root)::before {
     </script>
 </body>
 </html>
+        // === 小动画交互 ===
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <title>带尾巴的漫画气泡</title>
   <style>
+    /* === 保留你原有的动图样式 === */
     #corner-gif {
       position: fixed;
-      bottom: 20px;    /* 距离底部 20px */
-      right: 100px;     /* 距离右侧 20px */
-      z-index: 9999;   /* 确保在最上层，不被其他内容遮挡 */
-      width: 250px;    /* 可按需调整大小 */
-      height: auto;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9998;
+      width: 80px;
+      cursor: pointer;
+    }
+
+    /* === 新增：带尾巴的漫画气泡 === */
+    .speech-bubble {
+      position: fixed;
+      background: white;
+      color: #333;
+      padding: 10px 16px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-family: "Microsoft Yahei", sans-serif;
+      font-size: 14px;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      animation: fadeInOut 3s forwards;
+      
+      /* 关键：让气泡宽度自适应文字 */
+      white-space: nowrap;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    /* 用 ::after 创建小尾巴 */
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -12px; /* 尾巴在气泡下方 */
+      left: 50%;
+      transform: translateX(-50%); /* 水平居中 */
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 12px solid white; /* 与气泡背景色一致 */
+    }
+
+    /* 淡入淡出动画（保持不变） */
+    @keyframes fadeInOut {
+      0%   { opacity: 0; transform: translateY(10px); }
+      10%  { opacity: 1; transform: translateY(0); }
+      90%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-10px); }
     }
   </style>
 </head>
 <body>
 
-  <!-- 其他网页内容 -->
-
+  <!-- 动图（请替换 src） -->
   <img id="corner-gif" src="gif.gif" alt="动图">
+
+  <script>
+    const messages = [
+      "你好呀！",
+      "今天过得怎么样？",
+      "点击我有惊喜~",
+      "枫叶真美！",
+      "记得多喝水哦",
+      "加油！你可以的！"
+    ];
+
+    const gif = document.getElementById('corner-gif');
+    gif.addEventListener('click', function(e) {
+      const bubble = document.createElement('div');
+      bubble.className = 'speech-bubble';
+      bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+      // === 关键：调整气泡位置（在动图正上方）===
+      const rect = gif.getBoundingClientRect();
+      // 气泡水平居中于动图
+      bubble.style.left = (rect.left + rect.width / 2) + 'px';
+      // 气泡底部对齐到动图顶部（预留尾巴高度）
+      bubble.style.bottom = (window.innerHeight - rect.top + 20) + 'px'; 
+      // 使用 transform 让气泡自身居中
+      bubble.style.transform = 'translateX(-50%)';
+
+      document.body.appendChild(bubble);
+
+      setTimeout(() => {
+        bubble.remove();
+      }, 3000);
+    });
+  </script>
 
 </body>
 </html>
