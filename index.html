@@ -751,37 +751,36 @@ body:not(:root)::before {
   <img id="corner-gif" src="gif.gif" alt="动图">
 
   <script>
-    const messages = [
-      "你好呀！",
-      "今天过得怎么样？",
-      "点击我有惊喜~",
-      "枫叶真美！",
-      "记得多喝水哦",
-      "加油！你可以的！"
-    ];
+  const messages = [
+    "你好呀！",
+    "今天过得怎么样？",
+    "点击我有惊喜~",
+    "枫叶真美！",
+    "记得多喝水哦",
+    "加油！你可以的！"
+  ];
 
-    const gif = document.getElementById('corner-gif');
-    gif.addEventListener('click', function(e) {
-      const bubble = document.createElement('div');
-      bubble.className = 'speech-bubble';
-      bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+  const gif = document.getElementById('corner-gif');
+  gif.addEventListener('click', function(e) {
+    const bubble = document.createElement('div');
+    bubble.className = 'speech-bubble';
+    bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-      // === 关键：调整气泡位置（在动图正上方）===
-      const rect = gif.getBoundingClientRect();
-      // 气泡水平居中于动图
-       bubble.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
-      // 气泡底部对齐到动图顶部（预留尾巴高度）
-      bubble.style.bottom = (window.innerHeight - rect.top + 20 + offsetY) + 'px';
-      // 使用 transform 让气泡自身居中
-      bubble.style.transform = 'translateX(-50%)';
+    // === 关键修复：定义偏移量 ===
+    const offsetX = 15;   // 水平向右偏移（适配角色头位置）
+    const offsetY = -35;  // 垂直向上偏移（让气泡靠近头顶）
 
-      document.body.appendChild(bubble);
+    const rect = gif.getBoundingClientRect();
+    bubble.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
+    bubble.style.bottom = (window.innerHeight - rect.top + 20 + offsetY) + 'px';
+    bubble.style.transform = 'translateX(-50%)';
 
-      setTimeout(() => {
-        bubble.remove();
-      }, 3000);
-    });
-  </script>
+    document.body.appendChild(bubble);
 
+    setTimeout(() => {
+      bubble.remove();
+    }, 3000);
+  });
+</script>
 </body>
 </html>
