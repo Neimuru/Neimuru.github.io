@@ -769,9 +769,9 @@ body:not(:root)::before {
       // === 关键：调整气泡位置（在动图正上方）===
       const rect = gif.getBoundingClientRect();
       // 气泡水平居中于动图
-      bubble.style.left = (rect.left + rect.width / 2) + 'px';
+       bubble.style.left = (rect.left + rect.width / 2 + offsetX) + 'px';
       // 气泡底部对齐到动图顶部（预留尾巴高度）
-      bubble.style.bottom = (window.innerHeight - rect.top + 20) + 'px'; 
+      bubble.style.bottom = (window.innerHeight - rect.top + 20 + offsetY) + 'px';
       // 使用 transform 让气泡自身居中
       bubble.style.transform = 'translateX(-50%)';
 
