@@ -690,7 +690,7 @@ body:not(:root)::before {
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>带尾巴的漫画气泡</title>
+  <title>带语音的漫画气泡</title>
   <style>
     /* === 角色容器：固定在右下角 === */
     #gif-container {
@@ -711,12 +711,12 @@ body:not(:root)::before {
     /* === 隐藏的头顶锚点（关键！）=== */
     #head-anchor {
       position: absolute;
-      top: 5px; /* 👈 根据你的图调整此值：角色头顶在动图顶部往下15px处 */
+      top: 5px; 
       left: 35%;
       transform: translateX(-50%);
       width: 1px;
       height: 1px;
-      z-index: -1; /* 确保不可见 */
+      z-index: -1; 
     }
 
     /* === 带尾巴的漫画气泡 === */
@@ -734,27 +734,26 @@ body:not(:root)::before {
       opacity: 0;
       animation: fadeInOut 3s forwards;
       
-      /* 关键：让气泡宽度自适应文字 */
       white-space: nowrap;
       min-width: 60px;
       text-align: center;
     }
 
-    /* 用 ::after 创建小尾巴 */
+    /* 小尾巴 */
     .speech-bubble::after {
       content: '';
       position: absolute;
-      bottom: -12px; /* 尾巴在气泡下方 */
+      bottom: -12px; 
       left: 50%;
-      transform: translateX(-50%); /* 水平居中 */
+      transform: translateX(-50%); 
       width: 0;
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-top: 12px solid white; /* 与气泡背景色一致 */
+      border-top: 12px solid white; 
     }
 
-    /* 淡入淡出动画 */
+    /* 动画 */
     @keyframes fadeInOut {
       0%   { opacity: 0; transform: translateY(10px); }
       10%  { opacity: 1; transform: translateY(0); }
@@ -765,47 +764,53 @@ body:not(:root)::before {
 </head>
 <body>
 
-  <!-- 角色容器（包含动图 + 头顶锚点） -->
+  <!-- 角色容器 -->
   <div id="gif-container">
     <img id="corner-gif" src="gif.gif" alt="动图">
-    <!-- 虚拟锚点：精确定位角色头顶 -->
     <span id="head-anchor"></span>
   </div>
 
   <script>
-    const messages = [
-      "X#9q¥L@!",
-      "不要点我…",
-      "呃……",
-      "哔哔——",
-      "电量不足…",
-      "……"
+    // === 核心修改：把文字和音频文件名对应起来 ===
+    const contents = [
+      { text: "X#9q¥L@!",  audio: "luanma1.wav" }, // 第1句乱码对应 1.mp3
+      { text: "不要点我…", audio: "sawaruna.wav" }, // 第2句对应 2.mp3
+      { text: "呃……",     audio: "e.wav" },
+      { text: "哔哔——",    audio: "bibi.wav" },
+      { text: "电量不足…", audio: "dianchi.wav" },
+      { text: "……",       audio: "6.mp3" }
     ];
 
     const gif = document.getElementById('corner-gif');
+
     gif.addEventListener('click', function(e) {
-      // 创建气泡
+      // 1. 随机选一组内容（包含文字和音频文件名）
+      const randomItem = contents[Math.floor(Math.random() * contents.length)];
+
+      // 2. 播放对应的音频
+      const audio = new Audio(randomItem.audio);
+      audio.play();
+
+      // 3. 创建气泡显示对应的文字
       const bubble = document.createElement('div');
       bubble.className = 'speech-bubble';
-      bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+      bubble.textContent = randomItem.text; // 使用选中的文字
 
-      // ✅ 关键：读取头顶锚点位置（不是动图本身！）
+      // 4. 定位逻辑
       const anchor = document.getElementById('head-anchor');
       const anchorRect = anchor.getBoundingClientRect();
 
-      // 设置气泡位置：底部紧贴头顶，水平居中
-      bubble.style.bottom = (window.innerHeight - anchorRect.top + 5) + 'px'; // +5px 留空隙
+      bubble.style.bottom = (window.innerHeight - anchorRect.top + 5) + 'px';
       bubble.style.left = anchorRect.left + 'px';
       bubble.style.transform = 'translateX(-50%)';
 
       document.body.appendChild(bubble);
 
-      // 3秒后移除
+      // 5. 3秒后移除
       setTimeout(() => {
         bubble.remove();
       }, 3000);
     });
   </script>
-
 </body>
 </html>
