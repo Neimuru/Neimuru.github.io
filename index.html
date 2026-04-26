@@ -617,10 +617,10 @@ body:not(:root)::before {
             <h2>▍联系方式</h2>
             <p>欢迎合作、反馈或只是打个招呼！</p>
             <div class="contact-links">
-                <a href="mailto:yourname@example.com" class="contact-link">
+                <a href="Neimuru@foxmail.com" class="contact-link">
                     <i class="fas fa-envelope"></i> Email
                 </a>
-                <a href="https://space.bilibili.com/yourid" target="_blank" class="contact-link">
+                <a href="https://b23.tv/9dpJaBz" target="_blank" class="contact-link">
                     <i class="fab fa-bilibili"></i> Bilibili
                 </a>
                 <a href="https://x.com/yourid" target="_blank" class="contact-link">
@@ -690,15 +690,23 @@ body:not(:root)::before {
 <html>
 <head>
   <meta charset="UTF-8">
+  <!-- 关键：这行代码让手机浏览器正确识别屏幕宽度 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>带语音的漫画气泡</title>
   <style>
-    /* === 角色容器：固定在右下角 === */
+    /* ==============================
+       1. 手机端默认样式 (基础样式)
+       ============================== */
+    
+    /* === 角色容器：默认底部居中 === */
     #gif-container {
       position: fixed;
-      bottom: 20px;
-      right: 250px;
+      bottom: 10px;       /* 距离底部 */
+      left: 50%;          /* 水平居中定位 */
+      transform: translateX(-50%); /* 真正的居中 */
       z-index: 9998;
-      width: 250px;
+      width: 180px;       /* 手机端宽度：稍小一点，不挡内容 */
+      max-width: 40%;     /* 防止在超小屏幕太宽 */
     }
 
     /* === 动图样式 === */
@@ -708,11 +716,11 @@ body:not(:root)::before {
       cursor: pointer;
     }
 
-    /* === 隐藏的头顶锚点（关键！）=== */
+    /* === 隐藏的头顶锚点 === */
     #head-anchor {
       position: absolute;
       top: 5px; 
-      left: 35%;
+      left: 35%; /* 保持你之前的水平位置设定 */
       transform: translateX(-50%);
       width: 1px;
       height: 1px;
@@ -724,11 +732,12 @@ body:not(:root)::before {
       position: fixed;
       background: white;
       color: #333;
-      padding: 10px 16px;
+      padding: 12px 18px; /* 手机端内边距稍微大一点 */
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      font-family: "Microsoft Yahei", sans-serif;
-      font-size: 14px;
+      font-family: -apple-system, "Microsoft Yahei", sans-serif;
+      font-size: 15px;    /* 手机端字体稍大 */
+      font-weight: bold;
       z-index: 9999;
       pointer-events: none;
       opacity: 0;
@@ -736,21 +745,23 @@ body:not(:root)::before {
       
       white-space: nowrap;
       min-width: 60px;
+      max-width: 80vw;    /* 限制气泡最大宽度，防止超出屏幕 */
       text-align: center;
+      border: 2px solid #eee;
     }
 
     /* 小尾巴 */
     .speech-bubble::after {
       content: '';
       position: absolute;
-      bottom: -12px; 
+      bottom: -14px;
       left: 50%;
-      transform: translateX(-50%); 
+      transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 12px solid white; 
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 14px solid white;
     }
 
     /* 动画 */
@@ -759,6 +770,28 @@ body:not(:root)::before {
       10%  { opacity: 1; transform: translateY(0); }
       90%  { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-10px); }
+    }
+
+    /* ==============================
+       2. 电脑端专用样式 (媒体查询)
+       当屏幕宽度大于 768px (平板/电脑) 时生效
+       ============================== */
+    @media (min-width: 769px) {
+      #gif-container {
+        /* 覆盖手机端的居中设置 */
+        left: auto;       
+        right: 250px;     /* 恢复电脑端右边距 */
+        bottom: 20px;     /* 恢复电脑端底边距 */
+        transform: none;  /* 取消居中位移 */
+        width: 250px;     /* 恢复电脑端宽度 */
+        max-width: none;  /* 取消最大宽度限制 */
+      }
+      
+      /* 电脑端气泡可以稍微小一点，恢复原样 */
+      .speech-bubble {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
     }
   </style>
 </head>
@@ -773,8 +806,8 @@ body:not(:root)::before {
   <script>
     // === 核心修改：把文字和音频文件名对应起来 ===
     const contents = [
-      { text: "X#9q¥L@!",  audio: "luanma1.wav" }, // 第1句乱码对应 1.mp3
-      { text: "不要点我…", audio: "sawaruna.wav" }, // 第2句对应 2.mp3
+      { text: "X#9q¥L@!",  audio: "luanma1.wav" }, 
+      { text: "不要点我…", audio: "sawaruna.wav" }, 
       { text: "呃……",     audio: "e.wav" },
       { text: "哔哔——",    audio: "bibi.wav" },
       { text: "电量不足…", audio: "dianchi.wav" },
@@ -794,14 +827,19 @@ body:not(:root)::before {
       // 3. 创建气泡显示对应的文字
       const bubble = document.createElement('div');
       bubble.className = 'speech-bubble';
-      bubble.textContent = randomItem.text; // 使用选中的文字
+      bubble.textContent = randomItem.text; 
 
-      // 4. 定位逻辑
+      // 4. 定位逻辑 (自动适配手机/电脑)
       const anchor = document.getElementById('head-anchor');
       const anchorRect = anchor.getBoundingClientRect();
 
+      // 计算气泡位置
       bubble.style.bottom = (window.innerHeight - anchorRect.top + 5) + 'px';
-      bubble.style.left = anchorRect.left + 'px';
+      
+      // 计算锚点中心，确保气泡对准头顶中心
+      const anchorCenter = anchorRect.left + (anchorRect.width / 2);
+      
+      bubble.style.left = anchorCenter + 'px';
       bubble.style.transform = 'translateX(-50%)';
 
       document.body.appendChild(bubble);
