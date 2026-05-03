@@ -45,7 +45,7 @@ body::before {
 }
 
 /* === 2. 扫描线动画（模拟 CRT 显示器）=== */
-body::after {
+body::after 
   content: "";
   position: absolute;
   top: 0; left: 0;
@@ -501,6 +501,8 @@ body:not(:root)::before {
     </style>
 </head>
 <body>
+  <!-- 语言切换按钮 -->
+<a href="index_jp.html" class="lang-btn">🇯🇵</a>
     <div class="container">
         <!-- 顶部：头像 + 名称 -->
         <div class="hero">
@@ -856,5 +858,36 @@ body:not(:root)::before {
       }, 3000);
     });
   </script>
+    /* ===== 语言切换按钮样式 ===== */
+.lang-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #333;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  border: 1px solid #ddd;
+  transition: all 0.2s;
+}
+.lang-btn:hover {
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transform: scale(1.05);
+}
+@media (max-width: 768px) {
+  .lang-btn {
+    top: 10px;
+    right: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
 </body>
 </html>
