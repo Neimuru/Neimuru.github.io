@@ -26,18 +26,31 @@
   right: 20px;
   /* 关键修改：把层级提到最高，穿透所有遮挡 */
   z-index: 99999; 
+  
   background: #ffeb3b;
-  padding: 10px 10px;
-  border-radius: 12px;
+  
+  /* --- 核心修改：强制正方形 --- */
+  width: 60px;           /* 固定宽度 */
+  height: 60px;          /* 固定高度（必须和宽度一样） */
+  padding: 0;            /* 清除内边距，防止撑大 */
+  
+  /* 使用 Flex 布局让文字绝对居中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* --------------------------- */
+
+  border-radius: 15px;   /* 稍微大一点的圆角，看起来更现代 */
   text-decoration: none;
   color: #333;
   font-family: sans-serif;
-  font-size: 25px;
+  font-size: 28px;       /* 字号稍微调整以适配正方形 */
   font-weight: bold;
   border: 2px solid #333;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   transition: all 0.2s;
 }
+
 .lang-btn:hover {
   background: #fff9c4;
   transform: scale(1.05);
