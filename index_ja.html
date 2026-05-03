@@ -105,14 +105,20 @@ body:not(:root)::before {
   max-width: 900px;
   margin: 0 auto;
   padding: 30px 20px;
-  /* 新增：更强烈的霓虹外光晕 */
+  
+  /* 修改点 1：box-shadow (双重发光) */
+  /* 我把 rgba 里的数值都改成了紫色系 */
   box-shadow: 
-    0 0 20px rgba(204, 255, 0, 0.3),
-    0 0 40px rgba(185, 103, 255, 0.2);
+    0 0 20px rgba(191, 0, 255, 0.4),  /* 内层光晕：亮紫色 */
+    0 0 50px rgba(138, 43, 226, 0.3); /* 外层光晕：深紫色扩散 */
+
   border-radius: 15px;
-  background: rgba(15, 15, 21, 0.85); /* 更深一点的暗色 */
+  background: rgba(15, 15, 21, 0.85);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(204, 255, 0, 0.4);
+  
+  /* 修改点 2：边框颜色 */
+  /* 把最后的 0.4 (透明度) 保持不变，前面的颜色改成紫色 */
+  border: 1px solid rgba(191, 0, 255, 0.6); 
 }
 
 /* === 6. 关键：让头像/按钮等元素也带霓虹边框 === */
